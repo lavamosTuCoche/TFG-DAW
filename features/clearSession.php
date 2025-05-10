@@ -2,7 +2,7 @@
 
     if (session_status() === 2) {
 
-        $nombre = session_name().$_SESSION['nombre'];
+        $nombre = session_name().$_SESSION['usuario']['nombre'];
         session_destroy();
         $success = session_unset();
         $fecha = new date("Y-m-d H:i:s");
