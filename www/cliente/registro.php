@@ -15,30 +15,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
     }
 
     if (isset($_POST['apellidos'])) {
-        $apellidos = $_POST['apellidos'];
+        $apellidos = separarApellidos($_POST['apellidos']);
+        $apellido1 = $apellidos[0];
+        $apellido2 = $apellidos[1];
     }
 
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
     }
 
-    if (isset($_POST['password'])) {
+    if (isset($_POST['password']) && isset($_POST['confirmarPassword'])) {
+        
         $password = $_POST['password'];
+        $confirmarPassword = $_POST['confirmarPassword'];
+        
+        if ($password == $confirmarPassword) {
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        }
     }
 
-    if (isset($_POST['terminos'])) {
-        $terminos = true;
-    }else{
-        $terminos = false;
-    }
+    $terminos = (isset($_POST['terminos'])) ? 1:0;
 
-    if (isset($_POST['informacion'])) {
-        $informes = true;
-    }else{
-        $informes = false;
-    }
+    $informes = (isset($_POST['informacion'])) ?1:0;
 
-    $crud->registrarUsuarioCliente($nombre, $apellidos, $email, $password, $informes, $terminos);
+    $crud->registrarUsuarioCliente($nombre, $apellido1,$apellido2, $email, $password, $informes, $terminos);
 
 }
 

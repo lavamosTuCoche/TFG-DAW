@@ -1,5 +1,15 @@
 <?php
 
+$dropOrder = [
+    'reserva_servicios',
+    'reservas',
+    'servicios',
+    'lavaderos',
+    'negocios',
+    'clientes',
+    'cuentas'
+];
+
 // URL's
 $googleDriveEndpoint = '';
 $freeCoverterEndpoint = '';

@@ -1,5 +1,7 @@
 <?php
 
+include_once 'functions.php';
+
 class Crud {
     public mysqli $con;
 
@@ -118,8 +120,64 @@ class Crud {
         return false;
     }
 
-    public function registrarUsuarioCliente(string $nombre, string $apellidos, string $email, string $password, bool $informes, bool $terminos): bool {
-        return true;
+    public function registrarUsuarioCliente(string $nombre, string $apellido1, string $apellido2, string $email, string $password, bool $informes, bool $terminos): bool {
+        try {
+            $rol = 'CLIENTE';
+            $query = "INSERT INTO cuentas (email, password_hash, rol) VALUES (?, ?, ?)";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param('sss', $email, $password, $rol);
+    
+            if (!$stmt->execute()) {
+                return false;
+            }
+    
+            $cuenta_id = $this->con->insert_id;
+    
+            $query = "INSERT INTO clientes (cuenta_id, nombre, apellido1, apellido2, permisos_informes, permisos_terminos)
+                      VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param('isssii', $cuenta_id, $nombre, $apellido1, $apellido2, $informes, $terminos);
+    
+            if (!$stmt->execute()) {
+                return false; 
+            }
+    
+            return true;
+    
+        } catch (mysqli_sql_exception $e) {
+            error_log('Error al registrar usuario cliente: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function registrarUsuarioNegocio(string $nombreNegocio, string $logo, string $email, string $password, string $terminos): bool {
+        try {
+            $rol = 'NEGOCIO';
+            $query = "INSERT INTO cuentas (email, password_hash, rol) VALUES (?, ?, ?)";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param('sss', $email, $password, $rol);
+    
+            if (!$stmt->execute()) {
+                return false;
+            }
+    
+            $cuenta_id = $this->con->insert_id;
+    
+            $query = "INSERT INTO negocios (cuentas_id, nombre_comercial, logo, permisos_terminos)
+                      VALUES (????)";
+            $stmt = $this->con->prepare($query);
+            $stmt->bind_param("issi", $cuenta_id, $nombreNegocio, $logo, $terminos);
+    
+            if (!$stmt->execute()) {
+                return false; 
+            }
+    
+            return true;
+    
+        } catch (mysqli_sql_exception $e) {
+            error_log('Error al registrar usuario negocio: ' . $e->getMessage());
+            return false;
+        }
     }
 
 }

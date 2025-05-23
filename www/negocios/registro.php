@@ -10,31 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
     $crud = new Crud($userDb, $passDb, $host);
     $crud->connectDb($nombreDb);
 
-    if (isset($_POST['nombre'])) {
-        $nombre = $_POST['nombre'];
+    if (isset($_POST['nombreNegocio'])) {
+        $nombre = $_POST['nombreNegocio'];
     }
 
-    if (isset($_POST['apellidos'])) {
-        $apellidos = $_POST['apellidos'];
+    if (isset($_POST['logo'])) {
+        $logo = gzdeflate($_POST['logo']);
     }
 
     if (isset($_POST['email'])) {
         $email = $_POST['email'];
     }
 
-    if (isset($_POST['password'])) {
+    if (isset($_POST['password']) && isset($_POST['confirmarPassword'])) {
+        
         $password = $_POST['password'];
+        $confirmarPassword = $_POST['confirmarPassword'];
+        
+        if ($password == $confirmarPassword) {
+            $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        }
     }
 
-    if (isset($_POST['terminos'])) {
-        $informes = ($_POST['terminos'] === 'on') ? 1 : 0;
-    }
+    $terminos = (isset($_POST['terminos'])) ? 1:0;
 
-    $val = isset($_POST['informacion']);
-    $informes = (!isset($_POST['informacion'])) ? 0 : 1;
-
-    $crud->registrarUsuarioCliente($nombre, $apellidos, $email, $password, $informes, $terminos);
-
+    $result = $crud->registrarUsuarioNegocio($nombre, $logo, $email, $password, $terminos);
 }
 
 ?>
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
     <title>Registro Negocio | LavamosTuCoche</title>
     <link rel="shortcut icon" href="../../img/logo.png" type="favicon">
     <link rel="stylesheet" href="../../css/registro-negocio.css">
-    <script src="../../js/registro-cliente.js"></script>
+    <script src="../../js/registro-negocio.js"></script>
 </head>
 
 <body>
@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
                         </div>
                         <div>
                             <label for="logo">SUBIR LOGO:</label>
-                            <input id="logo" type="file" accept="image/*" hidden>
+                            <input name="logo" id="logo" type="file" accept="image/*" hidden>
                             <button type="button" id="logoBtn" class="custom-file-upload">SELECCIONAR IMAGEN</button>
                         </div>
                     </div>
@@ -99,6 +99,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
                 </div>
                 <button type="submit" class="btn">REGISTRAR</button>
             </form>
+            <div class="container-errores"></div>
         </div>
 </body>
 

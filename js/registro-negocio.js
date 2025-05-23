@@ -52,18 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
             errores.push("Las contraseñas no coinciden o no cumplen con los requisitos.");
         }
 
-        // Comprobación de campos vacíos
-        for (let i = 0; i < form.elements.length; i++) {
-            if (!form.elements[i].value && !form.elements[i].name.includes('password') && !form.elements[i].name.includes('email')) {
-                camposVacios = true;
-                break;
-            }
-        }
-
-        if (camposVacios) {
-            errores.push("Todos los campos son obligatorios.");
-        }
-
         if (errores.length > 0) {
             for (let error of errores) {
                 const errorElement = document.createElement("div");

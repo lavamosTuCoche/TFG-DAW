@@ -1,5 +1,7 @@
 <?php
 
+    include_once 'functions.php';
+
     if (session_status() === PHP_SESSION_ACTIVE) {
         $email = $_SESSION['usuario']['email'];
         
@@ -17,7 +19,7 @@
         } else {
             die('No se pudo crear/abrir el fichero de logs');
         }
-        redirectUser("{$baseURL}");
+        redirectUser("{$baseURLWWW}");
     }
 
 ?>
