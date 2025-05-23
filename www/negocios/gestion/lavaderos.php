@@ -7,7 +7,7 @@ if( isset($_POST['cerrarSesion'])) {
     include '../../../features/cerrarSesion.php';
     die();
 }
-var_dump($_SESSION['usuario']);
+var_dump($_SESSION['usuario']); 
 echo base64_encode($_SESSION['usuario']['logo']);
 ?>
 <!DOCTYPE html>
