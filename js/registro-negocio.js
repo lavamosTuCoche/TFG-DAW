@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const contenedorErrores = document.querySelector(".container-errores");
     const contenedorInfo = document.getElementById("contenedor-info");
     const passwordToggle = document.getElementById("password-toggle");
-    const logoInput = document.getElementById("logo");
+    const logoContainer = document.getElementById("logoContainer");
     const logoPreview = document.querySelector(".logo-negocio");
+    const inputFile = document.getElementById("logo");
 
     const validadorEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const validadorPassword = /^(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{10,}$/;
@@ -24,12 +25,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    logoInput.parentElement.addEventListener('click', (e) => {
-        console.log("Click en el botón de selección de archivo");
-        for (child of e.childrens) {
-            console.log("Hijo: ", child);
+    logoContainer.addEventListener('click', (e) => {
+        inputFile.click();
+    });
+
+    inputFile.addEventListener("change", () => {
+        const file = inputFile.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                logoPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
         }
     });
+
+    logoPreview.addEventListener("click", () => {
+        logoPreview.src = '../../img/logo-default.png';
+    })
 
     form.addEventListener("submit", (event) => {
         event.preventDefault();

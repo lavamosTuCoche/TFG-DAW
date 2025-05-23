@@ -13,9 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
     if (isset($_POST['nombreNegocio'])) {
         $nombre = $_POST['nombreNegocio'];
     }
-
-    if (isset($_POST['logo'])) {
-        $logo = gzdeflate($_POST['logo']);
+    
+    if (isset($_FILES['logo']) && $_FILES['logo']['error'] === UPLOAD_ERR_OK) {
+        $logo = file_get_contents($_FILES['logo']['tmp_name']);
     }
 
     if (isset($_POST['email'])) {
@@ -23,16 +23,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
     }
 
     if (isset($_POST['password']) && isset($_POST['confirmarPassword'])) {
-        
+
         $password = $_POST['password'];
         $confirmarPassword = $_POST['confirmarPassword'];
-        
+
         if ($password == $confirmarPassword) {
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         }
     }
 
-    $terminos = (isset($_POST['terminos'])) ? 1:0;
+    $terminos = (isset($_POST['terminos'])) ? 1 : 0;
 
     $result = $crud->registrarUsuarioNegocio($nombre, $logo, $email, $password, $terminos);
 }
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
         <div>
             <h1 class="title">REGISTRO NUEVO NEGOCIO</h1>
             <form id="registerForm" class="registerForm" spellcheck="false" autocomplete="off" method="post"
-                action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+                action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" enctype="multipart/form-data">
                 <div class="two-columns">
                     <div>
                         <div>
@@ -64,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
                             <input type="text" id="nombreNegocio" name="nombreNegocio"
                                 placeholder="Ej: Lavadero Joaquin Fernández" required>
                         </div>
-                        <div>
+                        <div id="logoContainer">
                             <label for="logo">SUBIR LOGO:</label>
-                            <input name="logo" id="logo" type="file" accept="image/*" hidden>
+                            <input name="logo" id="logo" type="file" value="../../img/logo-default.png" accept="image/*" hidden>
                             <button type="button" id="logoBtn" class="custom-file-upload">SELECCIONAR IMAGEN</button>
                         </div>
                     </div>

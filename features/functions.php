@@ -28,6 +28,23 @@
         return [$apellido1, $apellido2];
     }
 
+    function logQueryError(string $mensaje): void {
+        $fecha = new DateTime("now", new DateTimeZone('America/Lima'));
+        $logData = '[' . $fecha->format('Y-m-d H:i:s') . ']: ' . $mensaje;
+    
+        $logPath = __DIR__ . '/../logs/queryErrors.txt';
+    
+        $logFile = fopen($logPath, 'a');
+        if ($logFile !== false) {
+            fwrite($logFile, $logData . PHP_EOL);
+            fclose($logFile);
+        } else {
+            die('No se pudo crear/abrir el fichero de logs');
+        }
+    }
+    
+    
+
     function redirectUser($url){
         header("Location: " . $url);
         exit;

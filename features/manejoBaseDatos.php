@@ -50,7 +50,7 @@ $statements = [
     "NEGOCIOS" => "CREATE TABLE IF NOT EXISTS negocios (
         cuenta_id INT PRIMARY KEY,
         nombre_comercial VARCHAR(100) NOT NULL,
-        logo BLOB,
+        logo MEDIUMBLOB,
         permisos_terminos BOOLEAN NOT NULL DEFAULT FALSE,
         FOREIGN KEY (cuenta_id) REFERENCES cuentas(id) ON DELETE CASCADE
     ) ENGINE=InnoDB;",

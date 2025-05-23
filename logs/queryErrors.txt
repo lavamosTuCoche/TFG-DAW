@@ -1,0 +1,4 @@
+[2025-05-23 11:45:17]: Error al registrar usuario negocio: Unknown column 'cuentas_id' in 'field list'
+[2025-05-23 11:45:42]: Error al registrar usuario negocio: Unknown column 'cuentas_id' in 'field list'
+[2025-05-23 11:47:06]: Error al registrar usuario negocio: Duplicate entry 'ejemplo@gmail.com' for key 'email'
+[2025-05-23 16:04:37]: Error al registrar usuario negocio: Duplicate entry 'prueba@gmail.com' for key 'email'

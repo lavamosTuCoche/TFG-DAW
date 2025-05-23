@@ -1,0 +1,4 @@
+[2025-05-23 12:00:42]: El usuario ejemplo@gmail.com cierra la sesión
+[2025-05-23 12:14:28]: El usuario prueba@gmail.com cierra la sesión
+[2025-05-23 13:40:27]: El usuario prueba@gmail.com cierra la sesión
+[2025-05-23 15:45:00]: El usuario prueba@gmail.com cierra la sesión
