@@ -2,7 +2,6 @@
 
     include_once '../features/variables.php';
     include_once '../features/authGuard.php';
-
 ?>
 <!DOCTYPE html>
 <html lang="es">

@@ -1,5 +1,4 @@
 <?php
-
     function separarApellidos($nombreCompleto) {
         // Lista de partículas comunes en apellidos compuestos
         $particulas = ['de', 'del', 'de la', 'de los', 'de las', 'la', 'las', 'los'];
@@ -29,5 +28,9 @@
         return [$apellido1, $apellido2];
     }
 
+    function redirectUser($url){
+        header("Location: " . $url);
+        exit;
+    }
 
 ?>

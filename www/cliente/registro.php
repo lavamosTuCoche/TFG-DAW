@@ -1,40 +1,46 @@
 <?php
 
-    include_once '../../features/variables.php';
-    include_once '../../features/authGuard.php';
-    include_once '../../features/crud.php';
+include_once '../../features/variables.php';
+include_once '../../features/authGuard.php';
+include_once '../../features/crud.php';
 
-    //COMPRUEBA SI SE VIENE COMPROBANDO EL REGISTRO CORRECTO
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
-        
-        $crud->abrirConexion($host,$userDb,$passDb,$nombreDb);
-        
-        if (isset($_POST['nombre'])) {
-            $nombre = $_POST['nombre'];
-        }
+//COMPRUEBA SI SE VIENE COMPROBANDO EL REGISTRO CORRECTO
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['terminos'])) {
 
-        if (isset($_POST['apellidos'])) {
-            $apellidos = $_POST['apellidos'];
-        }
+    $crud = new Crud($userDb, $passDb, $host);
+    $crud->connectDb($nombreDb);
 
-        if (isset($_POST['email'])) {
-            $email = $_POST['email'];
-        }
-
-        if (isset($_POST['password']) ) {
-            $password = $_POST['password'];
-        }
-
-        if (isset($_POST['terminos']) ) {
-            $informes = ($_POST['terminos'] === 'on') ? 1 : 0;
-        }
-
-        $val = isset($_POST['informacion']);
-        $informes = (!isset($_POST['informacion']))? 0 : 1;
-
-        $crud->registrarUsuarioCliente($nombre,$apellidos,$email,$password,$informes,$terminos);
-
+    if (isset($_POST['nombre'])) {
+        $nombre = $_POST['nombre'];
     }
+
+    if (isset($_POST['apellidos'])) {
+        $apellidos = $_POST['apellidos'];
+    }
+
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+    }
+
+    if (isset($_POST['password'])) {
+        $password = $_POST['password'];
+    }
+
+    if (isset($_POST['terminos'])) {
+        $terminos = true;
+    }else{
+        $terminos = false;
+    }
+
+    if (isset($_POST['informacion'])) {
+        $informes = true;
+    }else{
+        $informes = false;
+    }
+
+    $crud->registrarUsuarioCliente($nombre, $apellidos, $email, $password, $informes, $terminos);
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -42,76 +48,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REGISTRO CLIENTE| LavamosTuCoche</title>
+    <title>Registro Cliente | LavamosTuCoche</title>
     <link rel="shortcut icon" href="../../img/logo.png" type="favicon">
+    <link rel="stylesheet" href="../../css/registro-cliente.css">
     <script src="../../js/registro-cliente.js"></script>
 </head>
 <body>
     <div class="container">
-        <?php
-
-            //Aqui se procesan los errores o avisos (No se registro error base de datos o el correo ya existe)
-            if (isset($crud->con->err_no)) {
-                
-                echo "<div id='contenedor-info' class='info-registro'><p>". $crud->error ."</p></div>";
-
-            }
-
-            $crud->cerrarConexion();
-
-        ?>
-        <div class="img-grid">
-            <img src="../../img/logo.png" alt="Logo lavamosTuCoche" class="logo-aside-form">
-        </div>
-        <div class="form-grid">
-            <h1 class="title">REGISTRO</h1>
+        <div id='contenedor-info' class='info-registro'></div>
+        <div>
+            <h1 class="title">REGISTRARSE</h1>
             <form id="registerForm" class="registerForm" spellcheck="false" autocomplete="off" method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-                <div class="double-input">
-                    <div class="label-input-container">
-                        <label for="nombre">Nombre</label>
-                        <input type="text" id="nombre" name="nombre" placeholder="Ej: David">
-                    </div>
-                    <div class="label-input-container">
-                        <label for="apellidos">Apellidos</label>
-                        <input type="text" id="apellidos" name="apellidos" placeholder="Ej: Palacios Fernández">
-                    </div>
+                <div>
+                    <label for="nombre-apellidos">NOMBRE<span class="obligatorio">*</span></label>
+                    <input type="text" id="nombre" name="nombre"
+                        placeholder="Ej: David" required>
                 </div>
-
-                <div class="label-input-container full-width">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="ejemplo@mail.ej">
+                <div>
+                    <label for="apellidos">APELLIDOS<span class="obligatorio">*</span></label>
+                    <input type="text" id="apellidos" name="apellidos"
+                        placeholder="Ej: Palacios Fernández" required>
                 </div>
-
-                <div class="double-input">
-                    <span class="info-text">La contraseña debe tener al menos 10 caracteres e incluir una letra mayúscula y un carácter especial (como @, #, $, %, etc.).</span>
-                    <div class="label-input-container">
-                        <label for="password">Contraseña</label>
-                        <input type="password" id="password" name="password">
-                    </div>
-                    <div class="label-input-container">
-                        <label for="confirmarPassword">Repite la contraseña</label>
-                        <input type="password" id="confirmarPassword" name="confirmarPassword">
-                    </div>
+                <div>
+                    <label for="email">EMAIL<span class="obligatorio">*</span></label>
+                    <input type="email" id="email" name="email" placeholder="ejemplo@mail.ej" required>
                 </div>
-
-                <div class="checkbox-container">
+                <div>
+                    <label for="password">
+                        CONTRASEÑA<span class="obligatorio">*</span>
+                        <img class="input-size" id="password-toggle" src="../../img/oculto.png" alt="Imagen ojo tachado, indicando campo oculto">
+                    </label>
+                    <input type="password" id="password" name="password" class="toogle" required>
+                </div>
+                <div>
+                    <label for="confirmarPassword">
+                        REPITE LA CONTRASEÑA <span class="obligatorio">*</span>
+                    </label>
+                    <input type="password" id="confirmarPassword" name="confirmarPassword" class="toogle" required>
+                </div>
+                <p class="info-text">La contraseña debe tener al menos 10 caracteres e incluir una letra mayúscula y un carácter especial (como @, #, $, %, etc...).</p>
+                <div>
                     <label>
-                        <input type="checkbox" name="terminos" id="terminos">
-                        Aceptar términos y condiciones
+                        <input type="checkbox" name="terminos" id="terminos" required>
+                        Aceptar términos y condiciones.<span class="obligatorio">*</span>
                     </label>
                 </div>
-
-                <div class="checkbox-container">
+                <div>
                     <label>
                         <input type="checkbox" name="informacion" id="informacion">
-                        Permite que se te envíen correos electrónicos de carácter informativo <span class="optional-text">(Opcional)</span>
+                        Permite que se te envíen correos electrónicos de carácter informativo.</span>
                     </label>
                 </div>
-
-                <input type="submit" name="registro" value="REGISTRARSE" class="submit-button"></input>
+                <button type="submit" class="btn">REGISTRAR</button>
             </form>
         </div>
+        <div class="container-errores"></div>
     </div>
-    <div class="container-errores"></div>
 </body>
 </html>

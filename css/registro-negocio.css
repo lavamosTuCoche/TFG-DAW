@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0 20px;
+    padding: 0;
+    background-image: url('../img/imgFormRegistro.webp');
+    background-size: cover;
+    background-position: center;
+    justify-content: end;
+    align-items: center;
+    height: 100vh;
+    display: flex;
+}
+
+.container {
+    width: 700px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+}
+
+.obligatorio {
+    color: #d64d2a;
+}
+
+.title {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-decoration: underline #005289;
+}
+
+.two-columns {
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
+.logo-negocio {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+label {
+    display: flex;
+    margin-bottom: .5rem;
+    margin-left: 0.6rem;
+    text-align: left;
+    color: #666;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: calc(100% - 24px);
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="text"]:focus {
+    outline: none;
+    border-color: #0067A3;
+}
+
+input[type="checkbox"] {
+    accent-color: green;
+}
+
+.btn {
+    width: auto;
+    padding: 1rem 2rem;
+    background-color: #0067A3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 2rem;
+}
+
+.input-size {
+    height: 20px;
+    margin-left: 10px;
+}
+
+.btn:hover {
+    background-color: #005289;
+}
+
+.container-errores {
+    margin-top: 1rem;
+}
+
+form div {
+    margin-bottom: 15px;
+}
+
+.error-element {
+    padding: .75rem;
+    border: 1px solid black;
+    background-color: red;
+    color: white;
+    border-radius: 4px;
+    margin-bottom: .5rem;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    background-color: #0067A3;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    margin: 10px;
+    width: 95%;
+}
+
+div#logo {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.custom-file-upload:hover {
+    background-color: #005289;
+}
+
+@media (max-width: 900px) {
+    .container {
+        min-width: auto;
+        width: 100%;
+    }
+}
